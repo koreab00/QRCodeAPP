@@ -29,7 +29,7 @@ def index():
         
         # Gera a imagem do QR Code
         img = qr.make_image(fill='black', black_color='white')
-        image.save(file_path) # Salva a imagem no diretório temporário
+        img.save(file_path) # Salva a imagem no diretório temporário
         
         qr_img_name = f'{file_name}.png'
         
