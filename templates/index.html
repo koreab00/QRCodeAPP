@@ -48,13 +48,25 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>QR Code Generator</h1>
-        <form action="/" method="POST">
-            <input type="text" name="link" placeholder="Cole o link aqui" required>
-            <input type="text" name="nome_arquivo" placeholder="Nome do arquivo (opcional)">
-            <button type="submit">Gerar QR Code</button>
-        </form>
-    </div>
+    <h1>Gerador de QRCode</h1>
+    
+    <form method="POST">
+        <label for="link">Insira o link:</label>
+        <input type="text" id="link" name="link" required><br><br>
+
+        <label for="filename">Nome do arquivo (opcional):</label>
+        <input type="text" id="filename" name="filename"><br><br>
+
+        <button type="submit">Gerar QRCode</button>
+    </form>
+
+    {% if qr_img_name %}
+        <h2>QRCode Gerado:</h2>
+        <img src="{{ url_for('static', filename='qrcodes/' + qr_img_name) }}" alt="QRCode"><br><br>
+
+        <a href="{{ url_for('download_file', filename=qr_img_name) }}">
+            <button>Baixar QRCode</button>
+        </a>
+    {% endif %}
 </body>
 </html>

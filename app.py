@@ -28,15 +28,16 @@ def index():
         
         # Gera a imagem do QR Code
         img = qr.make_image(fill='black', black_color='white')
-        caminho_arquivo = os.path.join(QR_FOLDER, f"{nome_arquivo}.png")
+        image.save(file_path) # Salva a imagem no diretório temporário
         
-        # Salva o arquivo de QR Code no diretório temporário
-        img.save(caminho_arquivo)
+        qr_image_name = f'{file_name}.png'
         
-        # Envia o arquivo para o usuário baixar
-        return send_file(caminho_arquivo, as_attachment=True)
-    
-    return render_template('index.html')
+    return render_template('index.html', qr_img_name=qr_img_name)
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    return send_file(file_path, as_attachments=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port =5000)
+    app.run(debug=True)
