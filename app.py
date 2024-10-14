@@ -11,6 +11,7 @@ if not os.path.exists(QR_FOLDER):
     
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    qr_img_name = None
     if request.method == 'POST':
         # Pega o link e o nome do arquivo enviados pelo usuário
         link = request.form.get('link')
