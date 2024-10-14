@@ -1,30 +1,34 @@
 from flask import Flask, render_template, request, send_file
 import qrcode
 import os
+from io import BytesIO
 
 app = Flask(__name__)
 
 #Diretório onde os arquivos de QR Code serão armazenados temporariamente
-QR_FOLDER = 'static/qr_codes'
-if not os.path.exists(QR_FOLDER):
-    os.makedirs(QR_FOLDER)
+UPLOAD_FOLDER = 'static/qr_codes'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
     
 @app.route('/', methods=['GET', 'POST'])
 def index():
     qr_img_name = None
     if request.method == 'POST':
-        # Pega o link e o nome do arquivo enviados pelo usuário
-        link = request.form.get('link')
-        nome_arquivo = request.form.get('nome_arquivo') or 'qrcode_imagem' # Nome padrão caso o usuário não insira
+        # Obtém o link do formulário
+        data = request.form.get('link')
+        
+        # Renomeia o arquivo de imagem com o nome fornecido pelo usuário
+        file_name = request.form.get('filename') or 'qrcode'
+        file_path = os.path.join(UPLOAD_FOLDER, f'{file_name}.png')
         
         # Cria o QR Code
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=10,
-            border=4
+            border=4,
         )
-        qr.add_data(link)
+        qr.add_data(data)
         qr.make(fit=True)
         
         # Gera a imagem do QR Code
