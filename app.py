@@ -30,7 +30,7 @@ def index():
         img = qr.make_image(fill='black', black_color='white')
         image.save(file_path) # Salva a imagem no diretório temporário
         
-        qr_image_name = f'{file_name}.png'
+        qr_img_name = f'{file_name}.png'
         
     return render_template('index.html', qr_img_name=qr_img_name)
 
